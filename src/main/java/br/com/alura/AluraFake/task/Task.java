@@ -22,14 +22,17 @@ public abstract class Task {
 
     private Integer orderIndex;
 
+    private Type type_task;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private Task() {}
 
-    public Task(Long courseId, String statement, Integer orderIndex) {
+    public Task(Long courseId, String statement, Integer orderIndex, Type type_task) {
         this.courseId = courseId;
         Statement = statement;
         this.orderIndex = orderIndex;
+        this.type_task = type_task;
     }
 
 
@@ -61,6 +64,14 @@ public abstract class Task {
         return orderIndex;
     }
 
+    public Type getType_task() {
+        return type_task;
+    }
+
+    public void setType_task(Type type_task) {
+        this.type_task = type_task;
+    }
+
     public void setOrderIndex(Integer orderIndex) {
         this.orderIndex = orderIndex;
     }
@@ -72,4 +83,6 @@ public abstract class Task {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }
