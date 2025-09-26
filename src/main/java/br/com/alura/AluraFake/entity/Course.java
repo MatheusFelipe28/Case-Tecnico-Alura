@@ -1,6 +1,6 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.entity;
 
-import br.com.alura.AluraFake.user.User;
+import br.com.alura.AluraFake.ENUM.Status;
 import jakarta.persistence.*;
 import org.springframework.util.Assert;
 

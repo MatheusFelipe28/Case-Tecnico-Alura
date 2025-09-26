@@ -1,5 +1,6 @@
-package br.com.alura.AluraFake.user;
+package br.com.alura.AluraFake.entity;
 
+import br.com.alura.AluraFake.ENUM.Role;
 import br.com.alura.AluraFake.util.PasswordGeneration;
 import jakarta.persistence.*;
 

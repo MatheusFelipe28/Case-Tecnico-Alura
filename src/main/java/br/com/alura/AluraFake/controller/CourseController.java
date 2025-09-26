@@ -1,6 +1,11 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.controller;
 
-import br.com.alura.AluraFake.user.*;
+import br.com.alura.AluraFake.dto.CourseListItemDTO;
+import br.com.alura.AluraFake.entity.User;
+import br.com.alura.AluraFake.repository.CourseRepository;
+import br.com.alura.AluraFake.dto.NewCourseDTO;
+import br.com.alura.AluraFake.entity.Course;
+import br.com.alura.AluraFake.repository.UserRepository;
 import br.com.alura.AluraFake.util.ErrorItemDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

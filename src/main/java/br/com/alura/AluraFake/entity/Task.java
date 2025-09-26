@@ -1,5 +1,6 @@
-package br.com.alura.AluraFake.task;
+package br.com.alura.AluraFake.entity;
 
+import br.com.alura.AluraFake.ENUM.Type;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

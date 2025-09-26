@@ -1,9 +1,12 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.service;
 
-import br.com.alura.AluraFake.task.Task;
-import br.com.alura.AluraFake.task.TaskRepository;
-import br.com.alura.AluraFake.task.Type;
-import br.com.alura.AluraFake.user.UserRepository;
+import br.com.alura.AluraFake.ENUM.Status;
+import br.com.alura.AluraFake.entity.Course;
+import br.com.alura.AluraFake.repository.CourseRepository;
+import br.com.alura.AluraFake.entity.Task;
+import br.com.alura.AluraFake.repository.TaskRepository;
+import br.com.alura.AluraFake.ENUM.Type;
+import br.com.alura.AluraFake.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
