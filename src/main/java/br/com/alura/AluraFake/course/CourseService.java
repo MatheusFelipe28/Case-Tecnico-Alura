@@ -1,0 +1,72 @@
+package br.com.alura.AluraFake.course;
+
+import br.com.alura.AluraFake.task.Task;
+import br.com.alura.AluraFake.task.TaskRepository;
+import br.com.alura.AluraFake.task.Type;
+import br.com.alura.AluraFake.user.UserRepository;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
+import org.springframework.data.crossstore.ChangeSetPersister;
+
+import java.util.List;
+
+public class CourseService {
+
+    private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
+
+
+    public CourseService(CourseRepository courseRepository, UserRepository userRepository, TaskRepository taskRepository) {
+        this.courseRepository = courseRepository;
+        this.userRepository = userRepository;
+        this.taskRepository = taskRepository;
+    }
+
+    @Transactional
+    public void publishCourse(Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException("Course not found"));
+
+        if (!course.getStatus().equals(Status.BUILDING)) {
+            throw new ValidationException("Course must be in BUILDING status to be published.");
+        }
+
+        List<Task> tasks = taskRepository.findByCourseId(courseId);
+        validateTasksForPublishing(tasks);
+
+        course.setStatus(Status.PUBLISHED);
+        course.setPublishedAt(LocalDateTime.now());
+        courseRepository.save(course);
+    }
+
+    private void validateTasksForPublishing(List<Task> tasks) {
+        if (!hasAllTaskTypes(tasks)) {
+            throw new ValidationException("Course must have at least one task of each type.");
+        }
+
+        if (!isSequentialOrder(tasks)) {
+            throw new ValidationException("Tasks must have sequential order.");
+        }
+    }
+
+    private boolean hasAllTaskTypes(List<Task> tasks) {
+        return  tasks.stream().anyMatch(t -> t.getType_task() == Type.OPEN_TEXT) &&
+                tasks.stream().anyMatch(t -> t.getType_task() == Type.SINGLE_CHOICE) &&
+                tasks.stream().anyMatch(t -> t.getType_task() == Type.MULTIPLE_CHOICE);
+    }
+
+    private boolean isSequentialOrder(List<Task> tasks) {
+        List<Integer> orders = tasks.stream()
+                .map(Task::getOrderIndex)
+                .sorted()
+                .toList();
+
+        for (int i = 0; i < orders.size(); i++) {
+            if (orders.get(i) != i + 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
