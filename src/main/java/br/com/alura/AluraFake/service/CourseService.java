@@ -5,12 +5,14 @@ import br.com.alura.AluraFake.entity.Course;
 import br.com.alura.AluraFake.repository.CourseRepository;
 import br.com.alura.AluraFake.entity.Task;
 import br.com.alura.AluraFake.repository.TaskRepository;
-import br.com.alura.AluraFake.ENUM.Type;
+import br.com.alura.AluraFake.ENUM.TaskType;
 import br.com.alura.AluraFake.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class CourseService {
@@ -29,7 +31,7 @@ public class CourseService {
     @Transactional
     public void publishCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new ChangeSetPersister.NotFoundException("Course not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
 
         if (!course.getStatus().equals(Status.BUILDING)) {
             throw new ValidationException("Course must be in BUILDING status to be published.");
@@ -54,9 +56,9 @@ public class CourseService {
     }
 
     private boolean hasAllTaskTypes(List<Task> tasks) {
-        return  tasks.stream().anyMatch(t -> t.getType_task() == Type.OPEN_TEXT) &&
-                tasks.stream().anyMatch(t -> t.getType_task() == Type.SINGLE_CHOICE) &&
-                tasks.stream().anyMatch(t -> t.getType_task() == Type.MULTIPLE_CHOICE);
+        return  tasks.stream().anyMatch(t -> t.getType_task() == TaskType.OPEN_TEXT) &&
+                tasks.stream().anyMatch(t -> t.getType_task() == TaskType.SINGLE_CHOICE) &&
+                tasks.stream().anyMatch(t -> t.getType_task() == TaskType.MULTIPLE_CHOICE);
     }
 
     private boolean isSequentialOrder(List<Task> tasks) {
