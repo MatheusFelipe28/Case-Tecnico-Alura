@@ -7,13 +7,13 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "tasks")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Long courseId;
 

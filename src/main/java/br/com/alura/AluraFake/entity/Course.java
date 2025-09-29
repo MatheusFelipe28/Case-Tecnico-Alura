@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "courses")
 public class Course {
 
     @Id
