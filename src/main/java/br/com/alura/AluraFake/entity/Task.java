@@ -1,10 +1,7 @@
 package br.com.alura.AluraFake.entity;
 
 import br.com.alura.AluraFake.ENUM.TaskType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,8 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
     private Long courseId;
 
     @Length(min= 4, max= 255)
