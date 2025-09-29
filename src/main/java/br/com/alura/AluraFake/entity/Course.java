@@ -32,6 +32,13 @@ public class Course {
         this.status = Status.BUILDING;
     }
 
+    public Course(Long id, String title, Status status, LocalDateTime publishedAt) {
+        this.id = id;
+        this.title = title;
+        this.status = status;
+        this.publishedAt = publishedAt;
+    }
+
     public Long getId() {
         return id;
     }
