@@ -1,11 +1,10 @@
 package br.com.alura.AluraFake.dto;
 
 import br.com.alura.AluraFake.ENUM.TaskType;
-import jakarta.persistence.Entity;
+
 
 import java.util.List;
 
-@Entity
 public class TaskDTO {
     private Long courseId;
     private TaskType type_task;
