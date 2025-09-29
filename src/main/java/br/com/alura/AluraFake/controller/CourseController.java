@@ -6,6 +6,7 @@ import br.com.alura.AluraFake.repository.CourseRepository;
 import br.com.alura.AluraFake.dto.NewCourseDTO;
 import br.com.alura.AluraFake.entity.Course;
 import br.com.alura.AluraFake.repository.UserRepository;
+import br.com.alura.AluraFake.service.CourseService;
 import br.com.alura.AluraFake.service.InstructorService;
 import br.com.alura.AluraFake.util.ErrorItemDTO;
 import jakarta.validation.Valid;
@@ -21,12 +22,15 @@ public class CourseController {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
-    private  InstructorService instructorService;
+    private final InstructorService instructorService;
+    private final CourseService courseService;
 
     @Autowired
-    public CourseController(CourseRepository courseRepository, UserRepository userRepository){
+    public CourseController(CourseRepository courseRepository, UserRepository userRepository, InstructorService instructorService, CourseService courseService) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.instructorService = instructorService;
+        this.courseService = courseService;
     }
 
     @Transactional
@@ -57,14 +61,24 @@ public class CourseController {
         return ResponseEntity.ok(courses);
     }
 
-    @PostMapping("/course/{id}/publish")
-    public ResponseEntity createCourse(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().build();
+    @PostMapping("/course/publish")
+    public ResponseEntity<?> publishCourse(@PathVariable("id") Long id) {
+        try {
+            courseService.publishCourse(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorItemDTO("publish", e.getMessage()));
+        }
     }
 
-    @GetMapping("/{id}/courses")
+    @GetMapping("/instructor/{id}/courses")
     public ResponseEntity<?> getCoursesByInstructor(@PathVariable Long id) {
-        return ResponseEntity.ok(instructorService.getCoursesByInstructor(id));
+        try {
+            return ResponseEntity.ok(instructorService.getCoursesByInstructor(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorItemDTO("instructor", e.getMessage()));
+        }
     }
-
 }
