@@ -6,7 +6,7 @@ CREATE TABLE tasks (
   order_index INT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   discriminator VARCHAR(50),
-  CONSTRAINT fk_task_course FOREIGN KEY (course_id) REFERENCES course(id),
+  CONSTRAINT fk_task_course FOREIGN KEY (course_id) REFERENCES courses(id),
   CONSTRAINT uq_course_statement UNIQUE (course_id, statement)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
