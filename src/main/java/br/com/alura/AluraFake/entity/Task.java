@@ -1,6 +1,6 @@
 package br.com.alura.AluraFake.entity;
 
-import br.com.alura.AluraFake.ENUM.Type;
+import br.com.alura.AluraFake.ENUM.TaskType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.LocalDateTime;
 
 @Entity
-public abstract class Task {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +23,13 @@ public abstract class Task {
 
     private Integer orderIndex;
 
-    private Type type_task;
+    private TaskType type_task;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private Task() {}
 
-    public Task(Long courseId, String statement, Integer orderIndex, Type type_task) {
+    public Task(Long courseId, String statement, Integer orderIndex, TaskType type_task) {
         this.courseId = courseId;
         Statement = statement;
         this.orderIndex = orderIndex;
@@ -65,11 +65,11 @@ public abstract class Task {
         return orderIndex;
     }
 
-    public Type getType_task() {
+    public TaskType getType_task() {
         return type_task;
     }
 
-    public void setType_task(Type type_task) {
+    public void setType_task(TaskType type_task) {
         this.type_task = type_task;
     }
 
