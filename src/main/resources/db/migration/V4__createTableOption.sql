@@ -1,8 +1,7 @@
-
 CREATE TABLE options (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    activity_id BIGINT NOT NULL,
+    task_id BIGINT NOT NULL,
     option_text VARCHAR(80) NOT NULL,
     is_correct BOOLEAN NOT NULL,
-    FOREIGN KEY (activity_id) REFERENCES activities(id)
-);
+    CONSTRAINT fk_task_id FOREIGN KEY (task_id) REFERENCES tasks(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
