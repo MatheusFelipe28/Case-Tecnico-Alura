@@ -28,28 +28,26 @@ public class TaskService {
     }
 
     public Task createTask(TaskDTO taskDTO) {
-        // Validar curso
+
         Course course = validateCourse(taskDTO.getCourseId());
 
-        // Validar statement
         validateStatement(taskDTO.getStatement(), course);
-
-        // Validar ordem
-        //validateOrderAndReorganize(course, taskDTO.getOrder());
-
-        // Criar tarefa com base no tipo
-        TaskDTO  task = new TaskDTO();
-        task.setCourseId(taskDTO.getCourseId());
-        task.setStatement(taskDTO.getStatement());
-        task.setOrderIndex(taskDTO.getOrderIndex());
-        task.setType_task(taskDTO.getType_task());
 
         if (taskDTO.getType_task() == TaskType.SINGLE_CHOICE || taskDTO.getType_task() == TaskType.MULTIPLE_CHOICE) {
             validateAndAddOptions(taskDTO, taskDTO.getOptions());
         }
 
+        Task task = new Task(
+                taskDTO.getCourseId(),
+                taskDTO.getStatement(),
+                taskDTO.getOrderIndex(),
+                taskDTO.getType_task()
+        );
+
         return taskRepository.save(task);
+
     }
+
 
     private Course validateCourse(Long courseId) {
         return courseRepository.findById(courseId)
@@ -61,22 +59,7 @@ public class TaskService {
             throw new IllegalArgumentException("Statement must be between 4 and 255 characters");
         }
 
-      /*  boolean statementExists = taskRepository.existsByCourseAndStatement(course, statement);
-        if (statementExists) {
-            throw new IllegalArgumentException("Duplicate statement in the course");
-        } */
     }
-
-   /* private void validateOrderAndReorganize(Course course, int order) {
-        List<Task> tasks = taskRepository.findAllByCourseOrderByOrderAsc(course);
-
-        for (Task task : tasks) {
-            if (task.getOrder() >= order) {
-                task.setOrder(task.getOrder() + 1);
-                taskRepository.save(task);
-            }
-        }
-    } */
 
     private void validateAndAddOptions(TaskDTO taskDTO, List<OptionDTO> options) {
         if (taskDTO.getType_task() == TaskType.SINGLE_CHOICE) {
