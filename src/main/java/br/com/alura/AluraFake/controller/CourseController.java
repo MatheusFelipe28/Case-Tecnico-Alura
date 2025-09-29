@@ -6,6 +6,7 @@ import br.com.alura.AluraFake.repository.CourseRepository;
 import br.com.alura.AluraFake.dto.NewCourseDTO;
 import br.com.alura.AluraFake.entity.Course;
 import br.com.alura.AluraFake.repository.UserRepository;
+import br.com.alura.AluraFake.service.InstructorService;
 import br.com.alura.AluraFake.util.ErrorItemDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class CourseController {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private  InstructorService instructorService;
 
     @Autowired
     public CourseController(CourseRepository courseRepository, UserRepository userRepository){
@@ -58,6 +60,11 @@ public class CourseController {
     @PostMapping("/course/{id}/publish")
     public ResponseEntity createCourse(@PathVariable("id") Long id) {
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<?> getCoursesByInstructor(@PathVariable Long id) {
+        return ResponseEntity.ok(instructorService.getCoursesByInstructor(id));
     }
 
 }
